@@ -1,7 +1,5 @@
-import { useContext } from "react";
-
 import styled from "styled-components";
-import UserContext from "../contexts/UserContext";
+
 
 import Header from "../blocks/Header";
 import Congratulations from "../blocks/Congratulations";
@@ -9,7 +7,7 @@ import Products from "../blocks/Products";
 import Footer from "../blocks/Footer";
 
 function HomeScreen() {
-	const { userName, setUserName } = useContext(UserContext);
+
 
 	return (
 		<Screen>
