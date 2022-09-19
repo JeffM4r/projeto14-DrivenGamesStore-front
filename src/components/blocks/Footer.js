@@ -1,21 +1,27 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Footer({ userName, setUserName }) {
+	const navigate = useNavigate();
 	const { fav } = useContext(UserContext);
+
+	function naviteToCart(){
+		navigate("/cart")
+	}
 
 	return (
 		<Block>
 			<FavButton>
-				<p>{fav}</p>
 				<ion-icon name="heart"></ion-icon>
 			</FavButton>
 			<Spacer />
-			<CartButton>
-				<p>{fav}</p>
+
+			<CartButton onClick={naviteToCart}>
 				<ion-icon name="cart"></ion-icon>
 			</CartButton>
+
 		</Block>
 	);
 }

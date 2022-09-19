@@ -13,8 +13,10 @@ function HomeScreen() {
 
 	return (
 		<Screen>
+			<Header/>
 			<Congratulations />
 			<Products />
+			<Footer/>
 		</Screen>
 	);
 }

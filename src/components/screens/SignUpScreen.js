@@ -1,18 +1,57 @@
-import { Link } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 import styled from "styled-components";
 
 function SignUpScreen() {
+	const [isSignUp,setIsSignUp] = useState(false);
+    const [form , setForm] = useState({name:"", email:"",password:"", img:"",user:"",cpf:""})
+    let navigate = useNavigate();
+
+	function signUpError(){
+        setIsSignUp(false);
+        alert("Houve um erro nessa tentativa de cadastro, por favor tente novamente");
+    }
+
+    function signUpSucces(){
+        alert("cadastro feito com sucesso")
+        navigate("/")
+    }
+
+    function signUp(cadastro) {
+        const promise = axios.post(`https://driven-games-store.herokuapp.com/signup`, cadastro);
+        return promise;
+    }
+
+    function handleSubmit(event){
+        event.preventDefault();
+        if(isSignUp){return};
+        setIsSignUp(!isSignUp);
+        
+        const promise = signUp({
+            name:form.name,
+            email:form.email,
+            password:form.password,
+			img:form.img,
+			user:form.user,
+			cpf:form.cpf			
+        })
+
+        promise.then(response => signUpSucces(response));
+        promise.catch(response => signUpError(response));
+    }
+
 	return (
 		<Screen>
 			<Title>Faça seu cadastro!</Title>
-			<Form>
-				<Input type="text" placeholder="Nome" />
-				<Input type="text" placeholder="Image/Url" />
-				<Input type="text" placeholder="Usuário" />
-				<Input type="text" placeholder="CPF" />
-				<Input type="email" placeholder="E-mail" />
-				<Input type="password" placeholder="Senha" />
+			<Form onSubmit={handleSubmit}>
+				<Input type="text" required disabled={isSignUp ? true: false } onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Nome" />
+				<Input type="text" required disabled={isSignUp ? true: false } onChange={(e) => setForm({...form, img: e.target.value})} placeholder="Image/Url" />
+				<Input type="text" required disabled={isSignUp ? true: false } onChange={(e) => setForm({...form, user: e.target.value})} placeholder="Usuário" />
+				<Input type="text" required disabled={isSignUp ? true: false } onChange={(e) => setForm({...form, cpf: e.target.value})} placeholder="CPF" />
+				<Input type="email" required disabled={isSignUp ? true: false } onChange={(e) => setForm({...form, email: e.target.value})} placeholder="E-mail" />
+				<Input type="password" required disabled={isSignUp ? true: false } onChange={(e) => setForm({...form, password: e.target.value})} placeholder="Senha" />
 				<Button>CADASTRAR</Button>
 			</Form>
 			<Link to="/">

@@ -20,7 +20,9 @@ import CheckoutScreen from "../components/screens/CheckoutScreen";
 
 function App() {
 	const [userName, setUserName] = useState("");
-	const [apa, setApa] = useState();
+	const [apa, setApa] = useState("");
+	const [user, setUser] = useState("");
+	const [token, setToken] = useState("");
 	const [fav, setFav] = useState(100);
 	const [cart, setCart] = useState(100);
 
@@ -30,7 +32,7 @@ function App() {
 
 	return (
 		<UserContext.Provider
-			value={{ userName, setUserName, apa, setApa, fav, setFav }}
+			value={{ userName, setUserName, user, setUser, token, setToken, apa, setApa, fav, setFav }}
 		>
 			<ResetCss />
 			<GlobalStyles />

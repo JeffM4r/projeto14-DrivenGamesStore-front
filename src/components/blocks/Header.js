@@ -1,6 +1,10 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
-function Header({ userName, setUserName }) {
+
+function Header() {
+	const { userName } = useContext(UserContext)
 	//se "em homescreen" entao title mostra "olá {name}, bem-vindo(a) ao DGS." + MENU;
 	//se "em productscreen" entao title mostra "{Nome do Jogo} - @{username}" + MENU;
 	return (

@@ -1,5 +1,6 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext,useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import styled from "styled-components";
 
@@ -7,16 +8,45 @@ import DGSLogo from "../../assets/img/driven-games-store-logo-v1.png";
 import UserContext from "../contexts/UserContext";
 
 function SignInScreen() {
-	const { setApa } = useContext(UserContext);
+	const { setToken,setUserName,setUser } = useContext(UserContext);
+	const [isSignIn, setIsSignIn] = useState(false);
+	const [form, setForm] = useState({email:"", password:""});
+	let navigate = useNavigate();
+
+	function LoginError(){
+		setIsSignIn(false);
+		alert("Houve um erro nessa tentativa de login, por favor verifique seu email e senha");
+	}
+
+	function LoginSucces(response){
+		setUserName(response.data.name)
+		setUser(response.data.user)
+		setToken(response.data.token)
+		navigate("/home")
+	}
+
+	function signin (conta){
+		const promise = axios.post(`https://driven-games-store.herokuapp.com/signin`,conta);
+		return promise;
+	}
+
+	function handleSubmit(event){
+		event.preventDefault();
+		if(isSignIn){return};
+		setIsSignIn(!isSignIn);
+		const promise = signin(form);
+		promise.then(response => LoginSucces(response));
+        promise.catch(response => LoginError(response));
+	}
 
 	return (
 		<Screen>
 			<Logo src={DGSLogo} alt="Logo" />
 			<Title>DRIVEN GAMES STORE</Title>
 
-			<Form>
-				<Input type="email" placeholder="Insira seu email ou usuário" />
-				<Input type="password" placeholder="Insira sua senha" />
+			<Form onSubmit={handleSubmit}>
+				<Input type="email" required disabled={isSignIn ? true: false } onChange={(e) => setForm({...form, email: e.target.value})} placeholder="Insira seu email" />
+				<Input type="password" required disabled={isSignIn ? true: false } onChange={(e) => setForm({...form, password: e.target.value})} placeholder="Insira sua senha" />
 				<SignIn>ENTRAR</SignIn>
 			</Form>
 
