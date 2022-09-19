@@ -1,46 +1,23 @@
+import axios from "axios";
+import { useContext, useState } from "react";
 import styled from "styled-components";
+import UserContext from "../contexts/UserContext";
 
-const Poster =
-	"https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png";
+function Featured({ productPrice, promoPercent, promoDescount }) {
 
-function Featured() {
 	return (
 		<>
 			<Title>JOGOS EM DESTAQUE</Title>
 			<Table>
 				<GameBox id="item1">
-					<img src={Poster} alt="Poster" />
+					<img src="" alt="Poster" />
 					<GameInfo>
 						<GameTitle>God of War - Ragnarock</GameTitle>
 
 						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
-						</GamePrice>
-					</GameInfo>
-				</GameBox>
-				<GameBox id="item2">
-					<img src={Poster} alt="Poster" />
-					<GameInfo>
-						<GameTitle>God of War - Ragnarock</GameTitle>
-
-						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
-						</GamePrice>
-					</GameInfo>
-				</GameBox>
-				<GameBox>
-					<img src={Poster} alt="Poster" />
-					<GameInfo>
-						<GameTitle>God of War - Ragnarock</GameTitle>
-
-						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
+							<Promo>{promoPercent}</Promo>
+							<p1>{productPrice}</p1>
+							<p2>{promoDescount}</p2>
 						</GamePrice>
 					</GameInfo>
 				</GameBox>
@@ -49,44 +26,20 @@ function Featured() {
 	);
 }
 
-function Top10() {
+function Top10({ productPrice, promoPercent, promoDescount }) {
 	return (
 		<>
 			<Title>TOP 10</Title>
 			<Table>
 				<GameBox id="item1">
-					<img src={Poster} alt="Poster" />
+					<img src="" alt="Poster" />
 					<GameInfo>
 						<GameTitle>God of War - Ragnarock</GameTitle>
 
 						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
-						</GamePrice>
-					</GameInfo>
-				</GameBox>
-				<GameBox id="item2">
-					<img src={Poster} alt="Poster" />
-					<GameInfo>
-						<GameTitle>God of War - Ragnarock</GameTitle>
-
-						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
-						</GamePrice>
-					</GameInfo>
-				</GameBox>
-				<GameBox>
-					<img src={Poster} alt="Poster" />
-					<GameInfo>
-						<GameTitle>God of War - Ragnarock</GameTitle>
-
-						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
+							<Promo>{promoPercent}</Promo>
+							<p1>{productPrice}</p1>
+							<p2>{promoDescount}</p2>
 						</GamePrice>
 					</GameInfo>
 				</GameBox>
@@ -95,44 +48,20 @@ function Top10() {
 	);
 }
 
-function Others() {
+function Others({ productPrice, promoPercent, promoDescount }) {
 	return (
 		<>
 			<Title>OUTROS</Title>
 			<Table>
 				<GameBox id="item1">
-					<img src={Poster} alt="Poster" />
+					<img src="" alt="Poster" />
 					<GameInfo>
 						<GameTitle>God of War - Ragnarock</GameTitle>
 
 						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
-						</GamePrice>
-					</GameInfo>
-				</GameBox>
-				<GameBox id="item2">
-					<img src={Poster} alt="Poster" />
-					<GameInfo>
-						<GameTitle>God of War - Ragnarock</GameTitle>
-
-						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
-						</GamePrice>
-					</GameInfo>
-				</GameBox>
-				<GameBox>
-					<img src={Poster} alt="Poster" />
-					<GameInfo>
-						<GameTitle>God of War - Ragnarock</GameTitle>
-
-						<GamePrice>
-							<Promo>-50%</Promo>
-							<p1>R$ 99,99</p1>
-							<p2>R$ 49,99</p2>
+							<Promo>{promoPercent}</Promo>
+							<p1>{productPrice}</p1>
+							<p2>{promoDescount}</p2>
 						</GamePrice>
 					</GameInfo>
 				</GameBox>
@@ -141,12 +70,36 @@ function Others() {
 	);
 }
 
+
 function Products() {
+
+	const [promo, setPromo] = useState(50);
+	const [price, setPrice] = useState(99.90);
+
+	const { token, allProd, setAllProd } = useContext(UserContext);
+
+	const promoPercent = "-" + promo + "%";
+	const promoDescount = "R$ " + (promo / 100) * price;
+	const productPrice = "R$ " + price;
+
+	const config = {
+		headers: {
+			Authorization: "Bearer " + token
+		}
+	}
+	console.log(token)
+	axios.get("https://driven-games-store.herokuapp.com/products", config)
+		.then(ans => {
+			setAllProd(ans.data)
+			console.log(allProd)
+		})
+		.catch(err => console.log("DEU MUITO RUIM"))
+
 	return (
 		<Block>
-			<Featured />
-			<Top10 />
-			<Others />
+			<Featured productPrice={productPrice} promoPercent={promoPercent} promoDescount={promoDescount} />
+			<Top10 productPrice={productPrice} promoPercent={promoPercent} promoDescount={promoDescount} />
+			<Others productPrice={productPrice} promoPercent={promoPercent} promoDescount={promoDescount} />
 		</Block>
 	);
 }

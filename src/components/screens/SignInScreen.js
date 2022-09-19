@@ -1,5 +1,5 @@
-import { useContext,useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import styled from "styled-components";
@@ -8,35 +8,35 @@ import DGSLogo from "../../assets/img/driven-games-store-logo-v1.png";
 import UserContext from "../contexts/UserContext";
 
 function SignInScreen() {
-	const { setToken,setUserName,setUser } = useContext(UserContext);
+	const { setToken, setUserName, setUser } = useContext(UserContext);
 	const [isSignIn, setIsSignIn] = useState(false);
-	const [form, setForm] = useState({email:"", password:""});
+	const [form, setForm] = useState({ email: "", password: "" });
 	let navigate = useNavigate();
 
-	function LoginError(){
+	function LoginError() {
 		setIsSignIn(false);
 		alert("Houve um erro nessa tentativa de login, por favor verifique seu email e senha");
 	}
 
-	function LoginSucces(response){
+	function LoginSucces(response) {
 		setUserName(response.data.name)
 		setUser(response.data.user)
 		setToken(response.data.token)
 		navigate("/home")
 	}
 
-	function signin (conta){
-		const promise = axios.post(`https://driven-games-store.herokuapp.com/signin`,conta);
+	function signin(conta) {
+		const promise = axios.post(`https://driven-games-store.herokuapp.com/signin`, conta);
 		return promise;
 	}
 
-	function handleSubmit(event){
+	function handleSubmit(event) {
 		event.preventDefault();
-		if(isSignIn){return};
+		if (isSignIn) { return };
 		setIsSignIn(!isSignIn);
 		const promise = signin(form);
 		promise.then(response => LoginSucces(response));
-        promise.catch(response => LoginError(response));
+		promise.catch(response => LoginError(response));
 	}
 
 	return (
@@ -45,8 +45,8 @@ function SignInScreen() {
 			<Title>DRIVEN GAMES STORE</Title>
 
 			<Form onSubmit={handleSubmit}>
-				<Input type="email" required disabled={isSignIn ? true: false } onChange={(e) => setForm({...form, email: e.target.value})} placeholder="Insira seu email" />
-				<Input type="password" required disabled={isSignIn ? true: false } onChange={(e) => setForm({...form, password: e.target.value})} placeholder="Insira sua senha" />
+				<Input type="email" required disabled={isSignIn ? true : false} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="Insira seu email" />
+				<Input type="password" required disabled={isSignIn ? true : false} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Insira sua senha" />
 				<SignIn>ENTRAR</SignIn>
 			</Form>
 

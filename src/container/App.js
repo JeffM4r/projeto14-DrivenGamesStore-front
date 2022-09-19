@@ -23,23 +23,27 @@ function App() {
 	const [apa, setApa] = useState("");
 	const [user, setUser] = useState("");
 	const [token, setToken] = useState("");
-	const [fav, setFav] = useState(100);
-	const [cart, setCart] = useState(100);
+	const [allProd, setAllProd] = useState();
 
-	const dontRender = ["/sign-up", "/cart", "/checkout"];
+	const [fav, setFav] = useState(0);
+	const [cart, setCart] = useState(0);
+
+	const dontRenderHeader = ["/sign-up"];
+	const dontRenderFooter = ["/cart", "/checkout"];
 	const { pathname } = window.location;
-	const hasHeader = pathname !== "/" && !dontRender.includes(pathname);
+	const hasHeader = pathname !== "/" && !dontRenderHeader.includes(pathname);
+	const hasFooter = pathname !== "/" && !dontRenderFooter.includes(pathname);
 
 	return (
 		<UserContext.Provider
-			value={{ userName, setUserName, user, setUser, token, setToken, apa, setApa, fav, setFav }}
+			value={{ userName, setUserName, user, setUser, token, setToken, apa, setApa, fav, setFav, allProd, setAllProd }}
 		>
 			<ResetCss />
 			<GlobalStyles />
 
 			<Fixed>
 				{hasHeader && <Header />}
-				{hasHeader && <Footer />}
+				{hasFooter && <Footer />}
 			</Fixed>
 
 			<BrowserRouter>

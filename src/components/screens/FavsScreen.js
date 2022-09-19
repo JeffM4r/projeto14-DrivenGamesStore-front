@@ -23,14 +23,6 @@ function FavsScreen() {
 			<Table>
 				<Title>Sua lista de favoritos:</Title>
 				<FavList />
-				<FavList />
-				<FavList />
-				<FavList />
-				<FavList />
-				<FavList />
-				<FavList />
-				<FavList />
-				<FavList />
 			</Table>
 		</Screen>
 	);

@@ -18,20 +18,10 @@ function MyCart() {
 function CheckoutScreen() {
 	return (
 		<Screen>
-			<Top>
-				<h1> Carrinho - @username</h1>
-				<Menu>
-					<ion-icon name="menu"></ion-icon>
-				</Menu>
-			</Top>
 			<Table>
 				<Title>Seu carrinho de compras:</Title>
 				<Cart>
 					<SubTitle>Confira os items do seu carrinho:</SubTitle>
-					<MyCart />
-					<MyCart />
-					<MyCart />
-					<MyCart />
 					<MyCart />
 				</Cart>
 				<TotalTitle>TOTAL DA COMPRA:</TotalTitle>
@@ -53,39 +43,6 @@ const Screen = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-`;
-
-const Top = styled.div`
-	width: 100%;
-	height: 70px;
-	padding: 0 30px;
-
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	left: 0;
-
-	font-size: 20px;
-	font-weight: bold;
-
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	background-color: #ff4791;
-
-	p {
-		font-size: 75px;
-	}
-`;
-
-const Menu = styled.div`
-	display: flex;
-	align-items: center;
-
-	ion-icon {
-		font-size: 55px;
-	}
 `;
 
 const Table = styled.div`

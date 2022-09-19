@@ -8,13 +8,12 @@ import Footer from "../blocks/Footer";
 
 function HomeScreen() {
 
-
 	return (
 		<Screen>
-			<Header/>
+			<Header />
 			<Congratulations />
 			<Products />
-			<Footer/>
+			<Footer />
 		</Screen>
 	);
 }

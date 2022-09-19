@@ -4,18 +4,31 @@ import UserContext from "../contexts/UserContext";
 
 
 function Header() {
-	const { userName } = useContext(UserContext)
+	const { user, userName } = useContext(UserContext);
+	const { pathname } = window.location;
+
+	const helloUser = `Olá ${userName}, `
+
 	//se "em homescreen" entao title mostra "olá {name}, bem-vindo(a) ao DGS." + MENU;
 	//se "em productscreen" entao title mostra "{Nome do Jogo} - @{username}" + MENU;
 	return (
 		<Block>
 			<Title>
-				Olá {userName}, <br />
-				bem-vindo(a) ao DGS.
+				{pathname === "/home" ?
+					<>
+						<HelloUser>
+							{helloUser}
+						</HelloUser>
+						bem-vindo(a) ao DGS.
+					</>
+					:
+					`${pathname} - ${user}`
+				}
 			</Title>
 			<Menu>
-				<ion-icon name="menu"></ion-icon>
+				{pathname === "/home" ? "" : <ion-icon name="arrow-undo"></ion-icon>}
 			</Menu>
+
 		</Block>
 	);
 }
@@ -45,6 +58,8 @@ const Title = styled.h1`
 	font-weight: bold;
 	line-height: 25px;
 `;
+
+const HelloUser = styled.h1``
 
 const Menu = styled.div`
 	display: flex;
